@@ -1,5 +1,6 @@
 #include "PlayScene.h"
 #include "Engine\\Model.h"
+#include "Player.h"
 
 
 PlayScene::PlayScene(GameObject* parent)
@@ -11,6 +12,7 @@ void PlayScene::Initialize()
 {
 	hModel_ = Model::Load("Oden.fbx");
 	assert(hModel_ >= 0);
+	Instantiate<Player>(this);//Playerのインスタンス
 }
 
 void PlayScene::Update()
