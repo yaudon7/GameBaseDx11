@@ -1,11 +1,11 @@
 #pragma once
 #include "Engine/GameObject.h"
-class Bullet :
+class ClearScene :
     public GameObject
 {
 public:
-	Bullet(GameObject* parent);
-	~Bullet() {};
+	ClearScene(GameObject* parent);
+	~ClearScene() {};
 	//初期化
 	void Initialize() override;
 
@@ -18,7 +18,6 @@ public:
 	//開放
 	void Release() override;
 private:
-	int hModel_;//モデルのハンドル
-	float speed_;//弾の速さ	
+	int hClearPic;
 };
 

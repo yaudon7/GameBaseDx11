@@ -17,7 +17,7 @@ public:
 	//開放
 	void Release() override;
 private:
-	int hModel_;
-	Transform tr_;//トランスフォーム、アフィン変換
+	int hModel_;//モデルのハンドル
+	float coolDown_;//弾を発射するインターバル
 };
 

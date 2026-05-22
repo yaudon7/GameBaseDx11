@@ -5,6 +5,7 @@
 #include "Model.h"
 #include "Image.h"
 #include "Audio.h"
+#include "../ClearScene.h"
 
 
 //コンストラクタ
@@ -41,8 +42,7 @@ void SceneManager::Update()
 		{
 		case SCENE_ID_TEST: Instantiate<TestScene>(this); break;
 		case SCENE_ID_PLAY: Instantiate<PlayScene>(this); break;
-
-
+		case SCENE_ID_CLEAR: Instantiate<ClearScene>(this); break;
 		}
 		Audio::Initialize();
 		currentSceneID_ = nextSceneID_;

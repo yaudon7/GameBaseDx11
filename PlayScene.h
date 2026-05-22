@@ -20,7 +20,5 @@ public:
 	//開放
 	void Release() override;
 private:
-	int hModel_;	//モデルのハンドル
-	Transform ot_;//おでん用のトランスフォーム
 };
 
