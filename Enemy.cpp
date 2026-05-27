@@ -3,6 +3,7 @@
 #include "Engine/Input.h"
 #include "Bullet.h"
 #include "Engine/SphereCollider.h"
+#include "Player.h"
 Enemy::Enemy(GameObject* parent) :
 	GameObject(parent, "Enemy"), hModel_(-1)
 {
@@ -15,21 +16,47 @@ void Enemy::Initialize()
 	transform_.rotate_ = { 0.0f,180.0f,0.0f };
 	SphereCollider* collider = new SphereCollider(XMFLOAT3(0.0f, 0.0f, 0.0f), 1.0f);
 	AddCollider(collider);
+	enemyShootCoolDown_ = 0.0f;
 }
 
 void Enemy::Update()
 {
 	static float time = 0.0f;
+	Player* player = (Player*)(this->GetParent());
+	
 
 	transform_.position_ = { 0.0f, -2.0f, 20.0f };
 	transform_.scale_ = { 0.5f, 0.5f, 0.5f };
 	//tr_.rotate_.y = time; //回転させる
 	time += 0.025f;
 	transform_.position_.x = 6.0f * sin(time);
-	//float posx = 6.0*sin(0.2f*time);
-	//float posy = cos(3.0f * time);
-	//tr_.position_.x = posx;
-	//tr_.position_.y = posy;
+
+	/*Transform PlayerToEnemy;
+	PlayerToEnemy.position_ = { player->GetPosition().x - transform_.position_.x,
+					            player->GetPosition().y - transform_.position_.y,
+					            player->GetPosition().z - transform_.position_.z
+	};
+	float length = sqrt(PlayerToEnemy.position_.x * PlayerToEnemy.position_.x +
+		PlayerToEnemy.position_.y * PlayerToEnemy.position_.y +
+		PlayerToEnemy.position_.z * PlayerToEnemy.position_.z);
+
+	PlayerToEnemy.position_ = { PlayerToEnemy.position_.x / length,
+								PlayerToEnemy.position_.y / length,
+								PlayerToEnemy.position_.z / length };*/
+
+	//if (enemyShootCoolDown_ == 0.0f)
+	//{
+	//	Bullet* eBullet = Instantiate<Bullet>(this->GetParent());//this = Enemy
+	//	eBullet->SetPosition(transform_.position_);	
+	//	eBullet->SetVelocity(
+	//		PlayerToEnemy.position_.x,
+	//		PlayerToEnemy.position_.y,
+	//		PlayerToEnemy.position_.z
+	//	);
+	//	enemyShootCoolDown_ = 3.0f;
+	//}
+	//enemyShootCoolDown_ -= 1.0f / 60.0f;
+	//if (enemyShootCoolDown_ < 0.0f) enemyShootCoolDown_ = 0.0f;
 }
 void Enemy::Draw()
 {
@@ -48,3 +75,4 @@ void Enemy::OnCollision(GameObject* pTarget)
 		this->KillMe();
 	}
 }
+

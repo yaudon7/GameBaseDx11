@@ -17,8 +17,13 @@ public:
 
 	//開放
 	void Release() override;
+	
+	void SetVelocity(float x, float y, float z);
+	XMFLOAT3 GetVelocity() const { return velocity_; }
+
 private:
 	int hModel_;//モデルのハンドル
 	float speed_;//弾の速さ	
+	XMFLOAT3 velocity_;
 };
 

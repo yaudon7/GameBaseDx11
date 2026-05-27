@@ -6,6 +6,7 @@ Bullet::Bullet(GameObject* parent)
 	:GameObject(parent, "Bullet"), hModel_(-1)
 {
 	speed_ = 0.5f;
+	velocity_ = { 0.0f,0.0f,0.0f };
 }
 
 void Bullet::Initialize()
@@ -23,6 +24,8 @@ void Bullet::Update()
 	if (transform_.position_.z > 50.0f) {
 		KillMe();//自分を削除する
 	}
+
+
 }
 
 void Bullet::Draw()
@@ -33,4 +36,9 @@ void Bullet::Draw()
 
 void Bullet::Release()
 {
+}
+
+void Bullet::SetVelocity(float x, float y, float z)
+{
+	velocity_ = { x,y,z };
 }

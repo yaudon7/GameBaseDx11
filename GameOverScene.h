@@ -1,11 +1,11 @@
 #pragma once
 #include "Engine/GameObject.h"
-class Enemy :
+class GameOverScene :
     public GameObject
 {
 public:
-	Enemy(GameObject* parent);
-	Enemy() {};
+	GameOverScene(GameObject* parent);
+	~GameOverScene() {};
 	//初期化
 	void Initialize() override;
 
@@ -17,9 +17,8 @@ public:
 
 	//開放
 	void Release() override;
-	void OnCollision(GameObject* pTarget) override;
 private:
-	int hModel_;//モデルのハンドル
-	float enemyShootCoolDown_;//敵の攻撃間隔
+	int hClearPic;
+
 };
 

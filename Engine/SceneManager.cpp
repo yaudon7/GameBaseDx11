@@ -6,10 +6,10 @@
 #include "Image.h"
 #include "Audio.h"
 #include "../ClearScene.h"
-
+#include "../GameOverScene.h"
 
 //コンストラクタ
-SceneManager::SceneManager(GameObject * parent)
+SceneManager::SceneManager(GameObject* parent)
 	: GameObject(parent, "SceneManager")
 {
 }
@@ -43,6 +43,7 @@ void SceneManager::Update()
 		case SCENE_ID_TEST: Instantiate<TestScene>(this); break;
 		case SCENE_ID_PLAY: Instantiate<PlayScene>(this); break;
 		case SCENE_ID_CLEAR: Instantiate<ClearScene>(this); break;
+		case SCENE_ID_OVER:Instantiate<GameOverScene>(this); break;
 		}
 		Audio::Initialize();
 		currentSceneID_ = nextSceneID_;
