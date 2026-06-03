@@ -1,9 +1,9 @@
 #include "Enemy.h"
 #include "Engine/Model.h"
 #include "Engine/Input.h"
-#include "Bullet.h"
 #include "Engine/SphereCollider.h"
 #include "Player.h"
+#include "EnemyBullet.h"
 Enemy::Enemy(GameObject* parent) :
 	GameObject(parent, "Enemy"), hModel_(-1)
 {
@@ -30,33 +30,36 @@ void Enemy::Update()
 	//tr_.rotate_.y = time; //回転させる
 	time += 0.025f;
 	transform_.position_.x = 6.0f * sin(time);
-
-	/*Transform PlayerToEnemy;
-	PlayerToEnemy.position_ = { player->GetPosition().x - transform_.position_.x,
-					            player->GetPosition().y - transform_.position_.y,
-					            player->GetPosition().z - transform_.position_.z
+	
+	//プレイヤーの位置を取得して、敵からプレイヤーへのベクトルを求める
+	Transform EnemyToPlayer;
+	EnemyToPlayer.position_ = {
+		transform_.position_.x - player->GetPosition().x,
+		transform_.position_.y - player->GetPosition().y,
+		transform_.position_.z - player->GetPosition().z
 	};
-	float length = sqrt(PlayerToEnemy.position_.x * PlayerToEnemy.position_.x +
-		PlayerToEnemy.position_.y * PlayerToEnemy.position_.y +
-		PlayerToEnemy.position_.z * PlayerToEnemy.position_.z);
-
-	PlayerToEnemy.position_ = { PlayerToEnemy.position_.x / length,
-								PlayerToEnemy.position_.y / length,
-								PlayerToEnemy.position_.z / length };*/
-
-	//if (enemyShootCoolDown_ == 0.0f)
-	//{
-	//	Bullet* eBullet = Instantiate<Bullet>(this->GetParent());//this = Enemy
-	//	eBullet->SetPosition(transform_.position_);	
-	//	eBullet->SetVelocity(
-	//		PlayerToEnemy.position_.x,
-	//		PlayerToEnemy.position_.y,
-	//		PlayerToEnemy.position_.z
-	//	);
-	//	enemyShootCoolDown_ = 3.0f;
-	//}
-	//enemyShootCoolDown_ -= 1.0f / 60.0f;
-	//if (enemyShootCoolDown_ < 0.0f) enemyShootCoolDown_ = 0.0f;
+	//ベクトルを正規化する
+	float length = sqrt(EnemyToPlayer.position_.x * EnemyToPlayer.position_.x +
+		                EnemyToPlayer.position_.y * EnemyToPlayer.position_.y +
+		                EnemyToPlayer.position_.z * EnemyToPlayer.position_.z);
+	//ベクトルの長さが0でない場合のみ正規化する
+	EnemyToPlayer.position_ = { EnemyToPlayer.position_.x / length,
+								EnemyToPlayer.position_.y / length,
+								EnemyToPlayer.position_.z / length };
+	//攻撃間隔が0になったら、プレイヤーの方向に弾を発射する
+	if (enemyShootCoolDown_ == 0.0f)
+	{
+		EnemyBullet* eBullet = Instantiate<EnemyBullet>(this->GetParent());//this = Enemy
+		eBullet->SetPosition(transform_.position_);	
+		eBullet->SetVelocity(
+			EnemyToPlayer.position_.x,
+			EnemyToPlayer.position_.y,
+			EnemyToPlayer.position_.z
+		);
+		enemyShootCoolDown_ = 3.0f;
+	}
+	enemyShootCoolDown_ -= 1.0f / 60.0f;
+	if (enemyShootCoolDown_ < 0.0f) enemyShootCoolDown_ = 0.0f;
 }
 void Enemy::Draw()
 {

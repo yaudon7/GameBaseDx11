@@ -1,10 +1,11 @@
 #pragma once
 #include "Engine/GameObject.h"
-class Player :
+class EnemyBullet :
     public GameObject
 {
 public:
-	Player(GameObject* parent);
+	EnemyBullet(GameObject* parent);
+	~EnemyBullet() {};
 	//初期化
 	void Initialize() override;
 
@@ -16,10 +17,11 @@ public:
 
 	//開放
 	void Release() override;
-    void OnCollision(GameObject* pTarget) override;
+
+	void SetVelocity(float x, float y, float z) { velocity_ = { x,y,z }; }
 private:
+	float speed_;//弾の速さ
 	int hModel_;//モデルのハンドル
-	float coolDown_;//弾を発射するインターバル
-	float speed_;//プレイヤーの移動速度
+	XMFLOAT3 velocity_;//弾の移動方向
 };
 
