@@ -2,6 +2,7 @@
 #include "Engine/Model.h"
 #include "Engine/Input.h"
 #include "Bullet.h"
+
 Player::Player(GameObject* parent):
 	GameObject(parent,"Player"),hModel_(-1)
 {
@@ -14,7 +15,7 @@ void Player::Initialize()
 	assert(hModel_ >= 0);
 	transform_.position_ = {0.0f, -2.0f, 0.0f };
 	transform_.rotate_ = { 0.0f,180.0f,0.0f };
-	speed_ = 1.0f;
+	speed_ = 5.0f;
 	SphereCollider* collider = new SphereCollider(XMFLOAT3(0.0f, 0.0f, 0.0f), 1.0f);
 	AddCollider(collider);
 
@@ -24,13 +25,21 @@ void Player::Update()
 {
 	float dt = 1.0f / 60.0f;//デルタタイム（1フレームの時間）
 
+	//移動処理
 	if (Input::IsKey(DIK_LEFT) || Input::IsKey(DIK_A)) {
 		transform_.position_.x -= speed_ * dt;
 	}
 	if (Input::IsKey(DIK_RIGHT) || Input::IsKey(DIK_D)) {
 		transform_.position_.x += speed_ * dt;
 	}
-	
+	if (Input::IsKey(DIK_UP) || Input::IsKey(DIK_W)) {
+		transform_.position_.y += speed_ * dt;
+	}
+	if (Input::IsKey(DIK_DOWN) || Input::IsKey(DIK_S)) {
+		transform_.position_.y -= speed_ * dt;
+	}
+
+	//弾の発射処理
 	if (Input::IsKeyDown(DIK_SPACE) && coolDown_ == 0.0f) {
 		Bullet* pBullet = Instantiate<Bullet>(this->GetParent());//this = Player
 		pBullet ->SetPosition(transform_.position_);

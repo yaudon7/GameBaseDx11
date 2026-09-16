@@ -12,7 +12,7 @@ TestScene::TestScene(GameObject * parent)
 //‰Šú‰»
 void TestScene::Initialize()
 {
-	hTitlePic_ = Image::Load("Title2.png");
+	hTitlePic_ = Image::Load("Title.png");
 	assert(hTitlePic_ >= 0);
 }
 
@@ -32,7 +32,6 @@ void TestScene::Update()
 //•`‰æ
 void TestScene::Draw()
 {
-	transform_.scale_ = { 1.5f, 1.5f, 1.0f }; //‰æ‘œ‚Ì‘å‚«‚³‚ğ•ÏX
 	Image::SetTransform(hTitlePic_, transform_); //‰æ‘œ‚ÌˆÊ’u‚âŒü‚«‚È‚Ç‚ğİ’è
 	Image::Draw(hTitlePic_);//‰æ‘œ‚ğ•\¦
 }
